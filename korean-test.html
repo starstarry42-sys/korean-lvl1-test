@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국어 1급 테스트 — 11~20과</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --red: #c0392b;
+    --gold: #e8a838;
+    --paper: #faf8f3;
+    --card: #ffffff;
+    --muted: #7a7a8c;
+    --green: #27ae60;
+    --border: #e2ddd5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--ink);
+    color: white;
+    padding: 28px 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+  }
+  header .label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  header p {
+    font-size: 13px;
+    color: #aaa;
+    margin-top: 8px;
+  }
+
+  .progress-bar-wrap {
+    background: #eee;
+    height: 6px;
+    border-radius: 3px;
+    margin: 20px 24px 0;
+  }
+  .progress-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* START SCREEN */
+  .start-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 28px;
+    text-align: center;
+  }
+  .start-card .big-num {
+    font-size: 56px;
+    font-family: 'Noto Serif KR', serif;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .start-card h2 { font-size: 20px; margin-bottom: 10px; }
+  .start-card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .sections-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 24px 0;
+    text-align: left;
+  }
+  .section-chip {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  .section-chip strong { display: block; color: var(--red); font-size: 12px; }
+
+  /* QUIZ CARD */
+  .q-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .q-num { font-size: 13px; color: var(--red); font-weight: 700; }
+
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px 24px;
+    margin-bottom: 16px;
+  }
+  .q-type-badge {
+    display: inline-block;
+    background: var(--ink);
+    color: white;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .q-text {
+    font-size: clamp(17px, 4vw, 22px);
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .q-hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: var(--paper);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    line-height: 1.4;
+  }
+  .opt-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    background: #fffbf0;
+  }
+  .opt-btn.correct {
+    border-color: var(--green);
+    background: #eafaf1;
+    color: var(--green);
+    font-weight: 600;
+  }
+  .opt-btn.wrong {
+    border-color: var(--red);
+    background: #fdecea;
+    color: var(--red);
+  }
+  .opt-btn:disabled { cursor: default; }
+
+  .fill-wrap { display: flex; gap: 10px; margin-top: 4px; }
+  .fill-input {
+    flex: 1;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 16px;
+    font-size: 16px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--paper);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .fill-input:focus { border-color: var(--gold); }
+  .fill-input.correct { border-color: var(--green); background: #eafaf1; }
+  .fill-input.wrong { border-color: var(--red); background: #fdecea; }
+
+  .feedback-box {
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 14px;
+    display: none;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.ok { background: #eafaf1; border: 1px solid #a9dfbf; color: #1e8449; }
+  .feedback-box.no { background: #fdecea; border: 1px solid #f1948a; color: #922b21; }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-primary { background: var(--ink); color: white; width: 100%; }
+  .btn-gold { background: var(--gold); color: var(--ink); width: 100%; }
+  .btn-check { background: var(--ink); color: white; padding: 13px 20px; white-space: nowrap; }
+
+  /* RESULTS */
+  .results-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 28px;
+    text-align: center;
+  }
+  .score-ring {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    margin: 0 auto 20px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 36px;
+    font-weight: 600;
+    border: 6px solid;
+  }
+  .score-ring.great { border-color: var(--green); color: var(--green); }
+  .score-ring.ok { border-color: var(--gold); color: var(--gold); }
+  .score-ring.low { border-color: var(--red); color: var(--red); }
+  .score-ring span { font-size: 13px; font-family: 'Noto Sans KR', sans-serif; }
+  .results-card h2 { font-size: 22px; margin-bottom: 8px; }
+  .results-card p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+
+  .breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .breakdown-item {
+    background: var(--paper);
+    border-radius: 8px;
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+  .breakdown-item .num { font-size: 24px; font-weight: 700; display: block; }
+  .breakdown-item .num.g { color: var(--green); }
+  .breakdown-item .num.r { color: var(--red); }
+  .breakdown-item .num.b { color: #2980b9; }
+
+  .review-list { text-align: left; margin-bottom: 24px; }
+  .review-list h3 { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .review-item {
+    border-left: 3px solid var(--border);
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--paper);
+    border-radius: 0 6px 6px 0;
+  }
+  .review-item.wrong-r { border-color: var(--red); }
+  .review-item .q-label { color: var(--muted); font-size: 12px; }
+  .review-item .ans { color: var(--green); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">연세한국어 1급</div>
+  <h1>어휘 & 문법 테스트<br><small style="font-size:60%;font-weight:400;color:#ccc;">11과 — 20과</small></h1>
+  <p>Vocabulary & Grammar Test · Lessons 11–20</p>
+</header>
+
+<main>
+  <!-- START -->
+  <div id="screen-start" class="screen active">
+    <div class="start-card">
+      <div class="big-num">20</div>
+      <h2>Questions</h2>
+      <p>This test covers vocabulary and grammar from lessons 11–20: appointments, family, shopping, birthdays, phones, transportation, directions, weather, travel, and school breaks.</p>
+      <div class="sections-grid">
+        <div class="section-chip"><strong>11과 약속</strong>Appointments · 날마다, 가끔</div>
+        <div class="section-chip"><strong>12과 가족</strong>Family · -으시다께서</div>
+        <div class="section-chip"><strong>13과 쇼핑</strong>Shopping · -은/는 보다</div>
+        <div class="section-chip"><strong>14과 생일</strong>Birthdays · 에게/을</div>
+        <div class="section-chip"><strong>15과 전화</strong>Phone · -지요?</div>
+        <div class="section-chip"><strong>16과 교통</strong>Transport · 으로/에서까지</div>
+        <div class="section-chip"><strong>17과 길찾기</strong>Directions · -으면</div>
+        <div class="section-chip"><strong>18과 날씨</strong>Weather · -는 것 같다</div>
+        <div class="section-chip"><strong>19과 여행</strong>Travel · -으려고</div>
+        <div class="section-chip"><strong>20과 방학</strong>School Break · -기 전에</div>
+      </div>
+      <button class="btn btn-primary" onclick="startQuiz()">시작하기 — Start Test</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="q-meta">
+      <span id="q-section">과</span>
+      <span id="q-num" class="q-num">1 / 20</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="prog-bar"></div>
+    </div>
+    <br>
+    <div class="q-card">
+      <span class="q-type-badge" id="q-type-badge">Vocabulary</span>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-hint" id="q-hint"></div>
+      <div id="q-body"></div>
+      <div class="feedback-box" id="feedback"></div>
+    </div>
+    <button class="btn btn-gold" id="btn-next" onclick="nextQuestion()" style="display:none">다음 문제 →</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" class="screen">
+    <div class="results-card">
+      <div class="score-ring" id="score-ring">
+        <span id="score-frac"></span>
+        <span id="score-label"></span>
+      </div>
+      <h2 id="result-title"></h2>
+      <p id="result-msg"></p>
+      <div class="breakdown">
+        <div class="breakdown-item"><span class="num g" id="res-correct">0</span>Correct</div>
+        <div class="breakdown-item"><span class="num r" id="res-wrong">0</span>Wrong</div>
+        <div class="breakdown-item"><span class="num b" id="res-pct">0%</span>Score</div>
+      </div>
+      <div class="review-list" id="review-list"></div>
+      <button class="btn btn-primary" onclick="restartQuiz()">다시 풀기 — Retake</button>
+    </div>
+  </div>
+</main>
+
+<script>
+const QUESTIONS = [
+  // 11과 약속
+  {
+    section: "11과 약속", type: "Vocabulary",
+    q: "What does 약속을 지키다 mean?",
+    hint: "약속 = promise",
+    kind: "mc",
+    options: ["To make a promise", "To keep a promise", "To break a promise", "To forget a promise"],
+    answer: 1
+  },
+  {
+    section: "11과 약속", type: "Grammar",
+    q: "Choose the correct form: 비가 오다 → 비가 오__ 후에 만나요.",
+    hint: "-은/ㄴ 후에 = after doing",
+    kind: "mc",
+    options: ["-기 후에", "-은 후에", "-을 후에", "-고 후에"],
+    answer: 1
+  },
+  // 12과 가족
+  {
+    section: "12과 가족", type: "Vocabulary",
+    q: "할머니 means:",
+    hint: "Family vocabulary",
+    kind: "mc",
+    options: ["Grandmother", "Grandfather", "Aunt", "Mother"],
+    answer: 0
+  },
+  {
+    section: "12과 가족", type: "Grammar",
+    q: "Fill in the blank with the honorific form:\n아버지___ 선생님이세요.",
+    hint: "Use the subject honorific particle for respected people",
+    kind: "fill",
+    answer: "께서"
+  },
+  // 13과 쇼핑
+  {
+    section: "13과 쇼핑", type: "Vocabulary",
+    q: "Which word means 'light (not heavy)'?",
+    hint: "Describing clothing weight",
+    kind: "mc",
+    options: ["두껍다", "비싸다", "가볍다", "짧다"],
+    answer: 2
+  },
+  {
+    section: "13과 쇼핑", type: "Grammar",
+    q: "Complete the sentence:\n이 치마가 저 바지___ 더 비싸요.",
+    hint: "Comparative: A is more ___ than B",
+    kind: "fill",
+    answer: "보다"
+  },
+  // 14과 생일
+  {
+    section: "14과 생일", type: "Vocabulary",
+    q: "생일을 축하하다 means:",
+    hint: "생일 = birthday",
+    kind: "mc",
+    options: ["To plan a birthday", "To celebrate a birthday", "To forget a birthday", "To attend a birthday"],
+    answer: 1
+  },
+  {
+    section: "14과 생일", type: "Grammar",
+    q: "Choose the right particle:\n친구___ 선물을 줬어요.",
+    hint: "Giving something TO someone",
+    kind: "mc",
+    options: ["에서", "한테", "에게서", "으로"],
+    answer: 1
+  },
+  // 15과 전화
+  {
+    section: "15과 전화", type: "Vocabulary",
+    q: "문자메시지를 보내다 means:",
+    hint: "문자 = text/message",
+    kind: "mc",
+    options: ["To receive a text message", "To send a text message", "To delete a text message", "To read a text message"],
+    answer: 1
+  },
+  {
+    section: "15과 전화", type: "Grammar",
+    q: "Fill in: 전화번호 좀 가르쳐 주___?",
+    hint: "Polite question tag asking for confirmation",
+    kind: "fill",
+    answer: "세요"
+  },
+  // 16과 교통
+  {
+    section: "16과 교통", type: "Vocabulary",
+    q: "Which is NOT a form of transport listed in 16과?",
+    hint: "교통 = transportation",
+    kind: "mc",
+    options: ["지하철", "고속버스", "비행기", "기차"],
+    answer: 2
+  },
+  {
+    section: "16과 교통", type: "Grammar",
+    q: "Complete: 명동___ 택시___ 얼마나 걸려요?",
+    hint: "From A to B by means of C",
+    kind: "mc",
+    options: ["까지 / 로", "에서 / 까지", "에서 / 로", "부터 / 에"],
+    answer: 2
+  },
+  // 17과 길찾기
+  {
+    section: "17과 길찾기", type: "Vocabulary",
+    q: "횡단보도 means:",
+    hint: "길 = road / 찾기 = finding",
+    kind: "mc",
+    options: ["Traffic light", "Pedestrian crosswalk", "Sidewalk", "Intersection"],
+    answer: 1
+  },
+  {
+    section: "17과 길찾기", type: "Grammar",
+    q: "Fill in: 사거리에서 오른쪽___ 가세요.",
+    hint: "Direction: go by / toward",
+    kind: "fill",
+    answer: "으로"
+  },
+  // 18과 날씨
+  {
+    section: "18과 날씨", type: "Vocabulary",
+    q: "Which describes autumn weather?",
+    hint: "계절 = season",
+    kind: "mc",
+    options: ["덥다", "춥다", "선선하다", "따뜻하다"],
+    answer: 2
+  },
+  {
+    section: "18과 날씨", type: "Grammar",
+    q: "Choose the right form:\n비가 오___ 것 같아요.",
+    hint: "Expressing conjecture about current state",
+    kind: "mc",
+    options: ["-는", "-은", "-을", "-ㄴ"],
+    answer: 0
+  },
+  // 19과 여행
+  {
+    section: "19과 여행", type: "Vocabulary",
+    q: "민박 means:",
+    hint: "여행 accommodation vocabulary",
+    kind: "mc",
+    options: ["Hotel", "Guesthouse / homestay", "Campsite", "Hostel dormitory"],
+    answer: 1
+  },
+  {
+    section: "19과 여행", type: "Grammar",
+    q: "Fill in: 제주도에 가___ 해요.",
+    hint: "-으려고 하다 = plan/intend to",
+    kind: "fill",
+    answer: "려고"
+  },
+  // 20과 방학
+  {
+    section: "20과 방학", type: "Vocabulary",
+    q: "세배하다 means:",
+    hint: "설날 / 추석 tradition",
+    kind: "mc",
+    options: ["To eat tteokguk", "To perform a New Year's bow", "To watch fireworks", "To receive a gift"],
+    answer: 1
+  },
+  {
+    section: "20과 방학", type: "Grammar",
+    q: "Complete: 학기가 시작되___ 만날 수 있어요?",
+    hint: "-기 전에 = before doing",
+    kind: "mc",
+    options: ["-기 전에", "-고 나서", "-기 때문에", "-은 후에"],
+    answer: 0
+  }
+];
+
+let current = 0;
+let score = 0;
+let answers = [];
+let answered = false;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Shuffle questions on start
+let questions = [];
+
+function startQuiz() {
+  questions = shuffle([...QUESTIONS]);
+  current = 0; score = 0; answers = [];
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('q-section').textContent = q.section;
+  document.getElementById('q-num').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('prog-bar').style.width = `${(current / questions.length) * 100}%`;
+  document.getElementById('q-type-badge').textContent = q.type;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-hint').textContent = `💡 ${q.hint}`;
+  document.getElementById('feedback').className = 'feedback-box';
+  document.getElementById('feedback').innerHTML = '';
+  document.getElementById('btn-next').style.display = 'none';
+
+  const body = document.getElementById('q-body');
+  body.innerHTML = '';
+
+  if (q.kind === 'mc') {
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = opt;
+      btn.onclick = () => checkMC(i, q.answer, opts);
+      opts.appendChild(btn);
+    });
+    body.appendChild(opts);
+  } else {
+    const wrap = document.createElement('div');
+    wrap.className = 'fill-wrap';
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'fill-input';
+    inp.placeholder = '답을 입력하세요…';
+    inp.id = 'fill-input';
+    inp.onkeydown = e => { if (e.key === 'Enter') checkFill(q.answer); };
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-check';
+    btn.textContent = '확인';
+    btn.onclick = () => checkFill(q.answer);
+    wrap.appendChild(inp);
+    wrap.appendChild(btn);
+    body.appendChild(wrap);
+    setTimeout(() => inp.focus(), 100);
+  }
+}
+
+function checkMC(chosen, correct, opts) {
+  if (answered) return;
+  answered = true;
+  const btns = opts.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  const isRight = chosen === correct;
+  btns[correct].classList.add('correct');
+  if (!isRight) btns[chosen].classList.add('wrong');
+  if (isRight) score++;
+  answers.push({ q: questions[current], correct: isRight, chosen: questions[current].options[chosen], rightAns: questions[current].options[correct] });
+  showFeedback(isRight, questions[current].options[correct]);
+}
+
+function checkFill(correct) {
+  if (answered) return;
+  const inp = document.getElementById('fill-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  answered = true;
+  inp.disabled = true;
+  document.querySelector('.btn-check').disabled = true;
+  const isRight = val === correct || val.replace(/\s/g,'') === correct.replace(/\s/g,'');
+  inp.classList.add(isRight ? 'correct' : 'wrong');
+  if (isRight) score++;
+  answers.push({ q: questions[current], correct: isRight, chosen: val, rightAns: correct });
+  showFeedback(isRight, correct);
+}
+
+function showFeedback(isRight, correct) {
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback-box show ' + (isRight ? 'ok' : 'no');
+  fb.innerHTML = isRight
+    ? `✅ <strong>정답이에요!</strong> Well done!`
+    : `❌ <strong>틀렸어요.</strong> The correct answer is: <strong>${correct}</strong>`;
+  document.getElementById('btn-next').style.display = 'block';
+  document.getElementById('btn-next').textContent = current < questions.length - 1 ? '다음 문제 →' : '결과 보기 →';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  showScreen('results');
+  document.getElementById('prog-bar').style.width = '100%';
+  const total = questions.length;
+  const pct = Math.round((score / total) * 100);
+  const frac = `${score}/${total}`;
+  document.getElementById('score-frac').textContent = frac;
+  document.getElementById('score-label').textContent = `${pct}%`;
+
+  const ring = document.getElementById('score-ring');
+  let cls, title, msg;
+  if (pct >= 85) {
+    cls = 'great'; title = '훌륭해요! 🎉'; msg = 'Excellent work! You have a strong grasp of lessons 11–20.';
+  } else if (pct >= 60) {
+    cls = 'ok'; title = '잘 했어요! 👍'; msg = 'Good effort! Review the items you missed and try again.';
+  } else {
+    cls = 'low'; title = '더 공부해요 📖'; msg = "Keep practicing! Focus on the vocabulary and grammar you missed.";
+  }
+  ring.className = 'score-ring ' + cls;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('res-correct').textContent = score;
+  document.getElementById('res-wrong').textContent = total - score;
+  document.getElementById('res-pct').textContent = pct + '%';
+
+  const wrongOnes = answers.filter(a => !a.correct);
+  const rl = document.getElementById('review-list');
+  rl.innerHTML = '';
+  if (wrongOnes.length) {
+    const h = document.createElement('h3');
+    h.textContent = `Review (${wrongOnes.length} missed)`;
+    rl.appendChild(h);
+    wrongOnes.forEach(a => {
+      const div = document.createElement('div');
+      div.className = 'review-item wrong-r';
+      div.innerHTML = `<div class="q-label">${a.q.section} · ${a.q.type}</div>
+        <div>${a.q.q}</div>
+        <div>Your answer: <em>${a.chosen}</em> → Correct: <span class="ans">${a.rightAns}</span></div>`;
+      rl.appendChild(div);
+    });
+  } else {
+    rl.innerHTML = '<p style="color:var(--green);font-weight:600;text-align:center;">Perfect score — no mistakes! 🌟</p>';
+  }
+}
+
+function restartQuiz() {
+  startQuiz();
+}
+</script>
+</body>
+</html>
